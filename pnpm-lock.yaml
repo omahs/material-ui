@@ -560,8 +560,8 @@ importers:
         specifier: ^6.1.5
         version: 6.1.5
       styled-components:
-        specifier: ^6.1.8
-        version: 6.1.8(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^6.1.9
+        version: 6.1.9(react-dom@18.2.0)(react@18.2.0)
       styled-system:
         specifier: ^5.1.5
         version: 5.1.5
@@ -833,8 +833,8 @@ importers:
         specifier: ^5.0.5
         version: 5.0.5
       styled-components:
-        specifier: ^6.1.8
-        version: 6.1.8(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^6.1.9
+        version: 6.1.9(react-dom@18.2.0)(react@18.2.0)
       stylis:
         specifier: 4.2.0
         version: 4.2.0
@@ -1900,8 +1900,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0
       styled-components:
-        specifier: ^6.1.8
-        version: 6.1.8(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^6.1.9
+        version: 6.1.9(react-dom@18.2.0)(react@18.2.0)
     publishDirectory: build
 
   packages/mui-styles:
@@ -2060,8 +2060,8 @@ importers:
         specifier: ^15.2.0
         version: 15.2.0
       styled-components:
-        specifier: ^6.1.8
-        version: 6.1.8(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^6.1.9
+        version: 6.1.9(react-dom@18.2.0)(react@18.2.0)
     publishDirectory: build
 
   packages/mui-types:
@@ -2362,8 +2362,8 @@ importers:
         specifier: ^15.2.0
         version: 15.2.0
       styled-components:
-        specifier: ^6.1.8
-        version: 6.1.8(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^6.1.9
+        version: 6.1.9(react-dom@18.2.0)(react@18.2.0)
       stylis:
         specifier: 4.2.0
         version: 4.2.0
@@ -4360,9 +4360,6 @@ packages:
       '@types/react': 18.2.55
       react: 18.2.0
 
-  /@emotion/unitless@0.8.0:
-    resolution: {integrity: sha512-VINS5vEYAscRl2ZUDiT3uMPlrFQupiKgHz5AA4bCH1miKBg4qtwkim1qPmJj/4WG6TreYMY111rEFsjupcOKHw==}
-
   /@emotion/unitless@0.8.1:
     resolution: {integrity: sha512-KOEGMu6dmJZtpadb476IsZBclKvILjopjUii3V+7MnXIQCYh8W3NgNcgwo21n9LXZX6EDIKvqfjYxXebDwxKmQ==}
 
@@ -6061,7 +6058,6 @@ packages:
 
   /@next/env@14.2.3:
     resolution: {integrity: sha512-W7fd7IbkfmeeY2gXrzJYDx8D2lWKbVoTIj1o1ScPHNzvp30s1AuoEFSdr39bC5sjxJaxTtq3OTCZboNp0lNWHA==}
-    dev: false
 
   /@next/eslint-plugin-next@14.2.3:
     resolution: {integrity: sha512-L3oDricIIjgj1AVnRdRor21gI7mShlSwU/1ZGHmqM3LzHhXXhdkrfeNY5zif25Bi5Dd7fiJHsbhoZCHfXYvlAw==}
@@ -20147,15 +20143,15 @@ packages:
     resolution: {integrity: sha512-Dj1Okke1C3uKKwQcetra4jSuk0DqbzbYtXipzFlFMZtowbF1x7BKJwB9AayVMyFARvU8EDrZdcax4At/452cAg==}
     dev: true
 
-  /styled-components@6.1.8(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-PQ6Dn+QxlWyEGCKDS71NGsXoVLKfE1c3vApkvDYS5KAK+V8fNWGhbSUEo9Gg2iaID2tjLXegEW3bZDUGpofRWw==}
+  /styled-components@6.1.9(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-aBOqs0uMsYufFXSE4q6cA6Ty1fwZuMk4BJRHfiGSna59F1otnxiDelwhN4fEwmBtIymmF0ZqXHnpSigr2ps9Cg==}
     engines: {node: '>= 16'}
     peerDependencies:
       react: '>= 16.8.0'
       react-dom: '>= 16.8.0'
     dependencies:
       '@emotion/is-prop-valid': 1.2.1
-      '@emotion/unitless': 0.8.0
+      '@emotion/unitless': 0.8.1
       '@types/stylis': 4.2.0
       css-to-react-native: 3.2.0
       csstype: 3.1.2
