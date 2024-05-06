@@ -351,8 +351,8 @@ importers:
   apps/local-ui-lib:
     dependencies:
       '@pigment-css/react':
-        specifier: ^0.0.9
-        version: 0.0.9(@types/react@18.2.55)(react@18.2.0)
+        specifier: ^0.0.10
+        version: 0.0.10(@types/react@18.2.55)(react@18.2.0)
 
   apps/pigment-css-next-app:
     dependencies:
@@ -436,8 +436,8 @@ importers:
         specifier: workspace:^
         version: link:../../packages/mui-utils/build
       '@pigment-css/react':
-        specifier: ^0.0.9
-        version: 0.0.9(@types/react@18.2.55)(react@18.2.0)
+        specifier: ^0.0.10
+        version: 0.0.10(@types/react@18.2.55)(react@18.2.0)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -6061,7 +6061,6 @@ packages:
 
   /@next/env@14.2.3:
     resolution: {integrity: sha512-W7fd7IbkfmeeY2gXrzJYDx8D2lWKbVoTIj1o1ScPHNzvp30s1AuoEFSdr39bC5sjxJaxTtq3OTCZboNp0lNWHA==}
-    dev: false
 
   /@next/eslint-plugin-next@14.2.3:
     resolution: {integrity: sha512-L3oDricIIjgj1AVnRdRor21gI7mShlSwU/1ZGHmqM3LzHhXXhdkrfeNY5zif25Bi5Dd7fiJHsbhoZCHfXYvlAw==}
@@ -6866,6 +6865,7 @@ packages:
     transitivePeerDependencies:
       - '@types/react'
       - supports-color
+    dev: true
 
   /@pigment-css/unplugin@0.0.10(@types/react@18.2.55)(react@18.2.0):
     resolution: {integrity: sha512-ypzpEZPIYRDP/BInXWEH6cjVMnHdiCuC1k5qaLaJMIRemWDtWpMt5bpgtIigLsP8BFXdYxoH23RRbzUXuuqc1Q==}
