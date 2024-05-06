@@ -467,8 +467,8 @@ importers:
         specifier: ^7.24.1
         version: 7.24.1(@babel/core@7.24.4)
       '@pigment-css/vite-plugin':
-        specifier: ^0.0.9
-        version: 0.0.9(@types/react@18.2.55)(react@18.2.0)(vite@5.2.10)
+        specifier: ^0.0.10
+        version: 0.0.10(@types/react@18.2.55)(react@18.2.0)(vite@5.2.10)
       '@types/react':
         specifier: 18.2.55
         version: 18.2.55
@@ -6061,7 +6061,6 @@ packages:
 
   /@next/env@14.2.3:
     resolution: {integrity: sha512-W7fd7IbkfmeeY2gXrzJYDx8D2lWKbVoTIj1o1ScPHNzvp30s1AuoEFSdr39bC5sjxJaxTtq3OTCZboNp0lNWHA==}
-    dev: false
 
   /@next/eslint-plugin-next@14.2.3:
     resolution: {integrity: sha512-L3oDricIIjgj1AVnRdRor21gI7mShlSwU/1ZGHmqM3LzHhXXhdkrfeNY5zif25Bi5Dd7fiJHsbhoZCHfXYvlAw==}
@@ -6866,6 +6865,7 @@ packages:
     transitivePeerDependencies:
       - '@types/react'
       - supports-color
+    dev: false
 
   /@pigment-css/unplugin@0.0.10(@types/react@18.2.55)(react@18.2.0):
     resolution: {integrity: sha512-ypzpEZPIYRDP/BInXWEH6cjVMnHdiCuC1k5qaLaJMIRemWDtWpMt5bpgtIigLsP8BFXdYxoH23RRbzUXuuqc1Q==}
@@ -6882,14 +6882,14 @@ packages:
       - supports-color
     dev: true
 
-  /@pigment-css/vite-plugin@0.0.9(@types/react@18.2.55)(react@18.2.0)(vite@5.2.10):
-    resolution: {integrity: sha512-GMyzdj7dIngj+XFShn7FpqVmu6rZcI0q6tpMUvO669Bl7mB9ZSZZDV7c4GWVXoQs3xXSEFnta3ntAC0Xkjwq6g==}
+  /@pigment-css/vite-plugin@0.0.10(@types/react@18.2.55)(react@18.2.0)(vite@5.2.10):
+    resolution: {integrity: sha512-FNsw2k7Cyy8KIrD8VGCJOjNPKKeycYhP/N9S0PF7cWqJU8K3WhVoveGViAB43kvCknGWXd1EV8CrP+b+pJfv9A==}
     peerDependencies:
       vite: ^4.0.0 || ^5.0.0
     dependencies:
       '@babel/core': 7.24.4
       '@babel/preset-typescript': 7.24.1(@babel/core@7.24.4)
-      '@pigment-css/react': 0.0.9(@types/react@18.2.55)(react@18.2.0)
+      '@pigment-css/react': 0.0.10(@types/react@18.2.55)(react@18.2.0)
       '@wyw-in-js/shared': 0.5.3
       '@wyw-in-js/transform': 0.5.3
       babel-plugin-define-var: 0.1.0
