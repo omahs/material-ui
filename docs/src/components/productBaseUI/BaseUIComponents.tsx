@@ -72,7 +72,7 @@ export default function BaseUIComponents() {
   return (
     <Section bg="gradient">
       <Grid container spacing={2}>
-        <Grid md={6} sx={{ minWidth: 0 }}>
+        <Grid sx={{ minWidth: 0 }} size={{ md: 6 }}>
           <SectionHeadline
             overline="Unstyled components"
             title={
@@ -92,7 +92,7 @@ export default function BaseUIComponents() {
             <More href={ROUTES.baseComponents} />
           </Group>
         </Grid>
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Frame
             sx={[
               {
@@ -161,22 +161,9 @@ export default function BaseUIComponents() {
             </Frame.Demo>
             <Frame.Info
               data-mui-color-scheme="dark"
-              sx={{
-                p: 0,
-                pt: 5,
-                height: 360,
-                position: 'relative',
-              }}
+              sx={{ p: 0, pt: 5, height: 360, position: 'relative' }}
             >
-              <Box
-                sx={{
-                  overflow: 'auto',
-                  pt: 2,
-                  pb: 1,
-                  px: 2,
-                  height: '100%',
-                }}
-              >
+              <Box sx={{ overflow: 'auto', pt: 2, pb: 1, px: 2, height: '100%' }}>
                 <HighlightedCode
                   copyButtonHidden
                   plainStyle

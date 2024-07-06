@@ -5,14 +5,13 @@ import clsx from 'clsx';
 import refType from '@mui/utils/refType';
 import elementTypeAcceptingRef from '@mui/utils/elementTypeAcceptingRef';
 import composeClasses from '@mui/utils/composeClasses';
-import { styled, createUseThemeProps } from '../zero-styled';
+import isFocusVisible from '@mui/utils/isFocusVisible';
+import { styled } from '../zero-styled';
+import { useDefaultProps } from '../DefaultPropsProvider';
 import useForkRef from '../utils/useForkRef';
 import useEventCallback from '../utils/useEventCallback';
-import useIsFocusVisible from '../utils/useIsFocusVisible';
 import TouchRipple from './TouchRipple';
 import buttonBaseClasses, { getButtonBaseUtilityClass } from './buttonBaseClasses';
-
-const useThemeProps = createUseThemeProps('MuiButtonBase');
 
 const useUtilityClasses = (ownerState) => {
   const { disabled, focusVisible, focusVisibleClassName, classes } = ownerState;
@@ -74,7 +73,7 @@ export const ButtonBaseRoot = styled('button', {
  * It contains a load of style reset and some focus/ripple logic.
  */
 const ButtonBase = React.forwardRef(function ButtonBase(inProps, ref) {
-  const props = useThemeProps({ props: inProps, name: 'MuiButtonBase' });
+  const props = useDefaultProps({ props: inProps, name: 'MuiButtonBase' });
   const {
     action,
     centerRipple = false,
@@ -113,12 +112,6 @@ const ButtonBase = React.forwardRef(function ButtonBase(inProps, ref) {
   const rippleRef = React.useRef(null);
   const handleRippleRef = useForkRef(rippleRef, touchRippleRef);
 
-  const {
-    isFocusVisibleRef,
-    onFocus: handleFocusVisible,
-    onBlur: handleBlurVisible,
-    ref: focusVisibleRef,
-  } = useIsFocusVisible();
   const [focusVisible, setFocusVisible] = React.useState(false);
   if (disabled && focusVisible) {
     setFocusVisible(false);
@@ -183,8 +176,7 @@ const ButtonBase = React.forwardRef(function ButtonBase(inProps, ref) {
   const handleBlur = useRippleHandler(
     'stop',
     (event) => {
-      handleBlurVisible(event);
-      if (isFocusVisibleRef.current === false) {
+      if (!isFocusVisible(event.target)) {
         setFocusVisible(false);
       }
       if (onBlur) {
@@ -200,8 +192,7 @@ const ButtonBase = React.forwardRef(function ButtonBase(inProps, ref) {
       buttonRef.current = event.currentTarget;
     }
 
-    handleFocusVisible(event);
-    if (isFocusVisibleRef.current === true) {
+    if (isFocusVisible(event.target)) {
       setFocusVisible(true);
 
       if (onFocusVisible) {
@@ -219,20 +210,9 @@ const ButtonBase = React.forwardRef(function ButtonBase(inProps, ref) {
     return component && component !== 'button' && !(button.tagName === 'A' && button.href);
   };
 
-  /**
-   * IE11 shim for https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat
-   */
-  const keydownRef = React.useRef(false);
   const handleKeyDown = useEventCallback((event) => {
     // Check if key is already down to avoid repeats being counted as multiple activations
-    if (
-      focusRipple &&
-      !keydownRef.current &&
-      focusVisible &&
-      rippleRef.current &&
-      event.key === ' '
-    ) {
-      keydownRef.current = true;
+    if (focusRipple && !event.repeat && focusVisible && rippleRef.current && event.key === ' ') {
       rippleRef.current.stop(event, () => {
         rippleRef.current.start(event);
       });
@@ -270,7 +250,6 @@ const ButtonBase = React.forwardRef(function ButtonBase(inProps, ref) {
       focusVisible &&
       !event.defaultPrevented
     ) {
-      keydownRef.current = false;
       rippleRef.current.stop(event, () => {
         rippleRef.current.pulsate(event);
       });
@@ -310,7 +289,7 @@ const ButtonBase = React.forwardRef(function ButtonBase(inProps, ref) {
     }
   }
 
-  const handleRef = useForkRef(ref, focusVisibleRef, buttonRef);
+  const handleRef = useForkRef(ref, buttonRef);
 
   if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line react-hooks/rules-of-hooks

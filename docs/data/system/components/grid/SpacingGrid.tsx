@@ -21,23 +21,25 @@ export default function SpacingGrid() {
 
   return (
     <Grid sx={{ flexGrow: 1 }} container spacing={2}>
-      <Grid xs={12}>
+      <Grid size={12}>
         <Grid container justifyContent="center" spacing={spacing}>
           {[0, 1, 2].map((value) => (
             <Grid key={value}>
               <Paper
-                sx={{
+                sx={(theme) => ({
                   height: 140,
                   width: 100,
-                  backgroundColor: (theme) =>
-                    theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                }}
+                  backgroundColor: '#fff',
+                  ...theme.applyStyles('dark', {
+                    backgroundColor: '#1A2027',
+                  }),
+                })}
               />
             </Grid>
           ))}
         </Grid>
       </Grid>
-      <Grid xs={12}>
+      <Grid size={12}>
         <Paper sx={{ p: 2 }}>
           <Grid container>
             <Grid>

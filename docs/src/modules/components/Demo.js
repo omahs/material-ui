@@ -1,5 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import { useRouter } from 'next/router';
 import { debounce } from '@mui/material/utils';
 import { alpha, styled } from '@mui/material/styles';
@@ -11,7 +12,9 @@ import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import NoSsr from '@mui/material/NoSsr';
-import { HighlightedCode } from '@mui/docs/HighlightedCode';
+import { HighlightedCode, CodeTab, CodeTabList } from '@mui/docs/HighlightedCode';
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
+import LibraryAddCheckRoundedIcon from '@mui/icons-material/LibraryAddCheckRounded';
 import DemoSandbox from 'docs/src/modules/components/DemoSandbox';
 import ReactRunner from 'docs/src/modules/components/ReactRunner';
 import DemoEditor from 'docs/src/modules/components/DemoEditor';
@@ -25,7 +28,6 @@ import { useUserLanguage, useTranslate } from '@mui/docs/i18n';
 import stylingSolutionMapping from 'docs/src/modules/utils/stylingSolutionMapping';
 import DemoToolbarRoot from 'docs/src/modules/components/DemoToolbarRoot';
 import { BrandingProvider, blue, blueDark, grey } from '@mui/docs/branding';
-import { CodeTab, CodeTabList } from 'docs/src/modules/components/HighlightedCodeWithTabs';
 
 /**
  * Removes leading spaces (indentation) present in the `.tsx` previews
@@ -42,7 +44,7 @@ function DemoToolbarFallback() {
   const t = useTranslate();
 
   // Sync with styles from DemoToolbar, we can't import the styles
-  return <Box sx={{ height: 40 }} aria-busy aria-label={t('demoToolbarLabel')} role="toolbar" />;
+  return <Box sx={{ height: 42 }} aria-busy aria-label={t('demoToolbarLabel')} role="toolbar" />;
 }
 
 function getDemoName(location) {
@@ -209,68 +211,119 @@ const Root = styled('div')(({ theme }) => ({
 
 const DemoRootMaterial = styled('div', {
   shouldForwardProp: (prop) => prop !== 'hideToolbar' && prop !== 'bg',
-})(({ theme, hideToolbar, bg }) => ({
+})(({ theme }) => ({
   position: 'relative',
   margin: 'auto',
   display: 'flex',
   justifyContent: 'center',
-  [theme.breakpoints.up('sm')]: {
-    borderRadius: hideToolbar ? 12 : '12px 12px 0 0',
-    ...(bg === 'outlined' && {
-      borderLeftWidth: 1,
-      borderRightWidth: 1,
-    }),
-    /* Make no difference between the demo and the markdown. */
-    ...(bg === 'inline' && {
-      padding: theme.spacing(0),
-    }),
-    ...(bg === 'gradient' && {
-      padding: theme.spacing(12, 8),
-      borderLeftWidth: 1,
-      borderRightWidth: 1,
-    }),
-  },
-  /* Isolate the demo with an outline. */
-  ...(bg === 'outlined' && {
-    padding: theme.spacing(3),
-    backgroundColor: (theme.vars || theme).palette.background.paper,
-    border: `1px solid ${(theme.vars || theme).palette.divider}`,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    ...theme.applyDarkStyles({
-      backgroundColor: alpha(theme.palette.primaryDark[700], 0.1),
-    }),
-  }),
-  /* Similar to the outlined one but without padding. Ideal for playground demos. */
-  ...(bg === 'playground' && {
-    backgroundColor: (theme.vars || theme).palette.background.paper,
-    border: `1px solid ${(theme.vars || theme).palette.divider}`,
-    overflow: 'auto',
-  }),
-  /* Prepare the background to display an inner elevation. */
-  ...(bg === true && {
-    padding: theme.spacing(3),
-    backgroundColor: alpha((theme.vars || theme).palette.grey[50], 0.5),
-    border: `1px solid ${(theme.vars || theme).palette.divider}`,
-    ...theme.applyDarkStyles({
-      backgroundColor: alpha((theme.vars || theme).palette.primaryDark[700], 0.4),
-    }),
-  }),
-  /* Mostly meant for introduction demos. */
-  ...(bg === 'gradient' && {
-    overflow: 'auto',
-    padding: theme.spacing(4, 2),
-    border: `1px solid ${(theme.vars || theme).palette.divider}`,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    backgroundClip: 'padding-box',
-    backgroundColor: alpha(theme.palette.primary[50], 0.2),
-    backgroundImage: `radial-gradient(120% 140% at 50% 10%, transparent 40%, ${alpha((theme.vars || theme).palette.primary[100], 0.2)} 70%)`,
-    ...theme.applyDarkStyles({
-      backgroundColor: (theme.vars || theme).palette.primaryDark[900],
-      backgroundImage: `radial-gradient(120% 140% at 50% 10%, transparent 30%, ${alpha((theme.vars || theme).palette.primary[900], 0.3)} 80%)`,
-    }),
-  }),
+  variants: [
+    {
+      props: ({ hideToolbar }) => hideToolbar,
+      style: {
+        [theme.breakpoints.up('sm')]: {
+          borderRadius: 12,
+        },
+      },
+    },
+    {
+      props: ({ hideToolbar }) => !hideToolbar,
+      style: {
+        [theme.breakpoints.up('sm')]: {
+          borderRadius: '12px 12px 0 0',
+        },
+      },
+    },
+    {
+      props: {
+        bg: 'outlined',
+      },
+      style: {
+        [theme.breakpoints.up('sm')]: {
+          borderLeftWidth: 1,
+          borderRightWidth: 1,
+        },
+      },
+    },
+    {
+      props: {
+        bg: 'inline',
+      },
+      style: {
+        [theme.breakpoints.up('sm')]: {
+          padding: theme.spacing(0),
+        },
+      },
+    },
+    {
+      props: {
+        bg: 'gradient',
+      },
+      style: {
+        [theme.breakpoints.up('sm')]: {
+          padding: theme.spacing(12, 8),
+          borderLeftWidth: 1,
+          borderRightWidth: 1,
+        },
+      },
+    },
+    {
+      props: {
+        bg: 'outlined',
+      },
+      style: {
+        padding: theme.spacing(3),
+        backgroundColor: (theme.vars || theme).palette.background.paper,
+        border: `1px solid ${(theme.vars || theme).palette.divider}`,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        ...theme.applyDarkStyles({
+          backgroundColor: alpha(theme.palette.primaryDark[700], 0.1),
+        }),
+      },
+    },
+    {
+      props: {
+        bg: 'playground',
+      },
+      style: {
+        backgroundColor: (theme.vars || theme).palette.background.paper,
+        border: `1px solid ${(theme.vars || theme).palette.divider}`,
+        overflow: 'auto',
+      },
+    },
+    {
+      props: {
+        bg: true,
+      },
+      style: {
+        padding: theme.spacing(3),
+        backgroundColor: alpha((theme.vars || theme).palette.grey[50], 0.5),
+        border: `1px solid ${(theme.vars || theme).palette.divider}`,
+        ...theme.applyDarkStyles({
+          backgroundColor: alpha((theme.vars || theme).palette.primaryDark[700], 0.4),
+        }),
+      },
+    },
+    {
+      props: {
+        bg: 'gradient',
+      },
+      style: {
+        overflow: 'auto',
+        padding: theme.spacing(4, 2),
+        border: `1px solid ${(theme.vars || theme).palette.divider}`,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        backgroundClip: 'padding-box',
+        backgroundColor: alpha(theme.palette.primary[50], 0.2),
+        backgroundImage: `radial-gradient(120% 140% at 50% 10%, transparent 40%, ${alpha((theme.vars || theme).palette.primary[100], 0.2)} 70%)`,
+        ...theme.applyDarkStyles({
+          backgroundColor: (theme.vars || theme).palette.primaryDark[900],
+          backgroundImage: `radial-gradient(120% 140% at 50% 10%, transparent 30%, ${alpha((theme.vars || theme).palette.primary[900], 0.3)} 80%)`,
+        }),
+      },
+    },
+  ],
 }));
 
 const DemoRootJoy = joyStyled('div', {
@@ -349,9 +402,6 @@ const DemoCodeViewer = styled(HighlightedCode)(() => ({
     borderRadius: 0,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
-  },
-  '& .MuiCode-copy': {
-    display: 'none',
   },
 }));
 
@@ -557,6 +607,21 @@ export default function Demo(props) {
     demoData.relativeModules,
   ]);
 
+  const [copiedContent, setCopiedContent] = React.useState(false);
+
+  const handleCopyClick = async () => {
+    try {
+      const activeTabData = tabs[activeTab];
+      await copy(activeTabData.raw);
+      setCopiedContent(true);
+      setTimeout(() => {
+        setCopiedContent(false);
+      }, 1000);
+    } catch (error) {
+      console.error('Code content not copied', error);
+    }
+  };
+
   return (
     <Root>
       <AnchorLink id={demoName} />
@@ -596,6 +661,10 @@ export default function Demo(props) {
                 <DemoToolbar
                   codeOpen={codeOpen}
                   codeVariant={codeVariant}
+                  copyIcon={
+                    copiedContent ? <LibraryAddCheckRoundedIcon /> : <ContentCopyRoundedIcon />
+                  }
+                  copyButtonOnClick={handleCopyClick}
                   hasNonSystemDemos={hasNonSystemDemos}
                   demo={demo}
                   demoData={demoData}
@@ -645,6 +714,11 @@ export default function Demo(props) {
                         'data-ga-event-category': codeOpen ? 'demo-expand' : 'demo',
                         'data-ga-event-label': demo.gaLabel,
                         'data-ga-event-action': 'copy-click',
+                      }}
+                      sx={{
+                        '& .MuiCode-copy': {
+                          display: 'none',
+                        },
                       }}
                     />
                   ) : (

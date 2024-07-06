@@ -8,15 +8,10 @@ import {
   focusVisible,
   simulatePointerDevice,
   programmaticFocusTriggersFocusVisible,
-} from '@mui-internal/test-utils';
+} from '@mui/internal-test-utils';
 import Avatar from '@mui/material/Avatar';
 import Chip, { chipClasses as classes } from '@mui/material/Chip';
-import {
-  ThemeProvider,
-  createTheme,
-  hexToRgb,
-  experimental_extendTheme as extendTheme,
-} from '@mui/material/styles';
+import { ThemeProvider, createTheme, hexToRgb, extendTheme } from '@mui/material/styles';
 import CheckBox from '../internal/svg-icons/CheckBox';
 import defaultTheme from '../styles/defaultTheme';
 import describeConformance from '../../test/describeConformance';
@@ -451,20 +446,6 @@ describe('<Chip />', () => {
       expect(handleKeydown.firstCall.returnValue).to.equal('p');
     });
 
-    it('should unfocus when a esc key is pressed', () => {
-      const handleBlur = spy();
-      const { getByRole } = render(<Chip onBlur={handleBlur} onClick={() => {}} />);
-      const chip = getByRole('button');
-      act(() => {
-        chip.focus();
-      });
-
-      fireEvent.keyUp(chip, { key: 'Escape' });
-
-      expect(handleBlur.callCount).to.equal(1);
-      expect(chip).not.toHaveFocus();
-    });
-
     it('should call onClick when `space` is released ', () => {
       const handleClick = spy();
       const { getByRole } = render(<Chip onClick={handleClick} />);
@@ -684,6 +665,13 @@ describe('<Chip />', () => {
   });
 
   describe('event: focus', () => {
+    before(function beforeCallback() {
+      if (/jsdom/.test(window.navigator.userAgent)) {
+        // JSDOM doesn't support :focus-visible
+        this.skip();
+      }
+    });
+
     it('has a focus-visible polyfill', () => {
       const { container } = render(<Chip label="Test Chip" onClick={() => {}} />);
       const chip = container.querySelector(`.${classes.root}`);

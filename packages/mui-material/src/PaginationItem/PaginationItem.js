@@ -13,9 +13,9 @@ import LastPageIcon from '../internal/svg-icons/LastPage';
 import NavigateBeforeIcon from '../internal/svg-icons/NavigateBefore';
 import NavigateNextIcon from '../internal/svg-icons/NavigateNext';
 import useSlot from '../utils/useSlot';
-import { styled, createUseThemeProps } from '../zero-styled';
+import { styled } from '../zero-styled';
 
-const useThemeProps = createUseThemeProps('MuiPaginationItem');
+import { useDefaultProps } from '../DefaultPropsProvider';
 
 const overridesResolver = (props, styles) => {
   const { ownerState } = props;
@@ -214,7 +214,7 @@ const PaginationItemPage = styled(ButtonBase, {
       },
     },
     ...Object.entries(theme.palette)
-      .filter(([, value]) => value.main && value.dark && value.contrastText)
+      .filter(([, value]) => value && value.main && value.dark && value.contrastText)
       .map(([color]) => ({
         props: { variant: 'text', color },
         style: {
@@ -238,7 +238,7 @@ const PaginationItemPage = styled(ButtonBase, {
         },
       })),
     ...Object.entries(theme.palette)
-      .filter(([, value]) => value.main && value.light)
+      .filter(([, value]) => value && value.main && value.light)
       .map(([color]) => ({
         props: { variant: 'outlined', color },
         style: {
@@ -302,7 +302,7 @@ const PaginationItemPageIcon = styled('div', {
 }));
 
 const PaginationItem = React.forwardRef(function PaginationItem(inProps, ref) {
-  const props = useThemeProps({ props: inProps, name: 'MuiPaginationItem' });
+  const props = useDefaultProps({ props: inProps, name: 'MuiPaginationItem' });
   const {
     className,
     color = 'standard',
@@ -455,7 +455,7 @@ PaginationItem.propTypes /* remove-proptypes */ = {
    * It's recommended to use the `slots` prop instead.
    *
    * @default {}
-   * @deprecated use the `slots` prop instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
+   * @deprecated use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
    */
   components: PropTypes.shape({
     first: PropTypes.elementType,

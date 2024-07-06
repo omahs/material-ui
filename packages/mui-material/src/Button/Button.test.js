@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { expect } from 'chai';
-import { act, createRenderer, fireEvent, screen } from '@mui-internal/test-utils';
+import { act, createRenderer, fireEvent, screen } from '@mui/internal-test-utils';
 import { ClassNames } from '@emotion/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Button, { buttonClasses as classes } from '@mui/material/Button';
@@ -582,7 +582,12 @@ describe('<Button />', () => {
     expect(button).to.have.class(classes.disableElevation);
   });
 
-  it('should have a focusRipple by default', () => {
+  it('should have a focusRipple by default', function test() {
+    if (/jsdom/.test(window.navigator.userAgent)) {
+      // JSDOM doesn't support :focus-visible
+      this.skip();
+    }
+
     const { getByRole } = render(
       <Button TouchRippleProps={{ classes: { ripplePulsate: 'pulsate-focus-visible' } }}>
         Hello World
@@ -598,7 +603,12 @@ describe('<Button />', () => {
     expect(button.querySelector('.pulsate-focus-visible')).not.to.equal(null);
   });
 
-  it('can disable the focusRipple', () => {
+  it('can disable the focusRipple', function test() {
+    if (/jsdom/.test(window.navigator.userAgent)) {
+      // JSDOM doesn't support :focus-visible
+      this.skip();
+    }
+
     const { getByRole } = render(
       <Button
         disableFocusRipple
